@@ -1,7 +1,7 @@
 
-#  FavorSelect - Backend Server
+#  Sparkthon - Backend Server
 
-This is the backend server for **FavorSelect**, an e-commerce platform. It is built with **Node.js**, **Express**, **MySQL**, and integrates third-party services like **AWS S3**, **Twilio**, **ElasticDB** and **Upstash Redis** and **Stripe** for payment processing and social login provider **Google OAuth** , **Facebook OAuth** and **Twitter OAuth**.
+This is the backend server for **Sparkthon**, an e-commerce platform. It is built with **Node.js**, **Express**, **MySQL**, and integrates third-party services like **AWS S3**, **Twilio**, **ElasticDB** and **Upstash Redis** and **Stripe** for payment processing and social login provider **Google OAuth** , **Facebook OAuth** and **Twitter OAuth**.
 
 ---
 
@@ -205,7 +205,7 @@ Server runs at: `http://localhost:8000` (or the port in `.env`)
 
 ##  Contact
 
- favorselect113@gmail.com
+ i.sksingh113@gmail.com
 
 ---
 

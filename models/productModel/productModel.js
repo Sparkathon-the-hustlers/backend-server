@@ -10,15 +10,7 @@ const Product = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    sellerId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: "Sellers",
-        key: "id",
-      },
-    },
-
+ 
     UserId: {
       type: DataTypes.INTEGER,
       allowNull: true,

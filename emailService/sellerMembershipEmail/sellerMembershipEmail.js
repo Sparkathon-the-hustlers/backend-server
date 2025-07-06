@@ -3,9 +3,9 @@ const logo = process.env.LOGO;
 const sendMembershipAssignedEmail = async (email, sellerName, planName, startDate, endDate) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Team" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: " Membership Assigned - FavorSelect",
+      subject: " Membership Assigned - Sparkethon dev Support",
       text: `Hi ${sellerName},\n\nYou have been subscribed to a new membership plan.\n\nPlan: ${planName}\nStart Date: ${startDate}\nEnd Date: ${endDate}\n\nThank you for being a part of FavorSelect!\n\n- FavorSelect Team`,
       html: `
         <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -21,7 +21,7 @@ const sendMembershipAssignedEmail = async (email, sellerName, planName, startDat
               <p><strong>End Date:</strong> ${new Date(endDate).toDateString()}</p>
             </div>
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
-            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `
@@ -37,9 +37,9 @@ const sendMembershipAssignedEmail = async (email, sellerName, planName, startDat
 const sendMembershipRenewalEmail = async (email, sellerName, planName, startDate, endDate) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Team" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: " Membership Renewed - FavorSelect",
+      subject: " Membership Renewed - Sparkethon dev Support",
       text: `Hi ${sellerName},\n\nYour membership has been renewed.\n\nPlan: ${planName}\nStart Date: ${startDate}\nEnd Date: ${endDate}\n\nThanks for staying with us!\n\n- FavorSelect Team`,
       html: `
         <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -55,7 +55,7 @@ const sendMembershipRenewalEmail = async (email, sellerName, planName, startDate
               <p><strong>End Date:</strong> ${new Date(endDate).toDateString()}</p>
             </div>
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
-            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()}Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `
@@ -71,7 +71,7 @@ const sendMembershipRenewalEmail = async (email, sellerName, planName, startDate
 const sendPreExpiryEmailToSeller = async (email, planName, duration) => {
   try {
     await transporter.sendMail({
-      from: '"FavorSelect Membership" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
       subject: " Your Membership is Expiring Soon!",
       html: `
@@ -83,7 +83,7 @@ const sendPreExpiryEmailToSeller = async (email, planName, duration) => {
             <p>To continue enjoying all benefits, please renew your membership before the expiry date.</p>
             <p><a href="https://favorselect.com/renew" style="color: #fff; background: #28a745; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Renew Now</a></p>
             <br/>
-            <p>Thank you,<br/>FavorSelect Team</p>
+            <p>Thank you,<br/>Sparkethon dev Support</p>
           </div>
         </div>
       `
@@ -98,7 +98,7 @@ const sendPreExpiryEmailToSeller = async (email, planName, duration) => {
 const sendExpiryEmailToSeller = async (email, planName, duration) => {
   try {
     await transporter.sendMail({
-      from: '"FavorSelect Membership" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
       subject: " Your Membership Has Expired",
       html: `
@@ -110,7 +110,7 @@ const sendExpiryEmailToSeller = async (email, planName, duration) => {
             <p>You no longer have access to premium features. Please renew your membership to continue selling on FavorSelect.</p>
             <p><a href="https://favorselect.com/renew" style="color: #fff; background: #007bff; padding: 10px 15px; text-decoration: none; border-radius: 4px;">Renew Membership</a></p>
             <br/>
-            <p>Thank you,<br/>FavorSelect Team</p>
+            <p>Thank you,<br/>Sparkethon dev Support</p>
           </div>
         </div>
       `

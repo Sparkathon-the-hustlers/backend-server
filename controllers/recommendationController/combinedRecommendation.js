@@ -106,12 +106,7 @@ const recommendCombined = async (req, res) => {
             model: Category,
             as: "category",
             attributes: ["categoryName"],
-          },
-          {
-            model: Seller,
-            as: "seller",
-            attributes: ["id", "sellerName", "shopName"],
-          },
+          }
         ],
       });
 

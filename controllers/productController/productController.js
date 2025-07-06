@@ -1,7 +1,6 @@
 const Product = require("../../models/productModel/productModel");
 const elasticClient = require("../../config/elasticSearchConfig/elasticSearchClient");
 const Category = require("../../models/categoryModel/categoryModel");
-const Seller = require("../../models/authModel/sellerModel");
 const { Op, fn, col, literal } = require("sequelize");
 const {
   extractLabelsFromImageS3,
@@ -12,19 +11,7 @@ const ReviewLike = require("../../models/reviewLikeModel/reviewLikeModel");
 
 const handleAddProduct = async (req, res) => {
   try {
-    let sellerId = null;
-
-    if (req.user.role === "seller") {
-      const seller = await Seller.findOne({ where: { userId: req.user.id } });
-      if (!seller) {
-        return res.status(404).json({
-          success: false,
-          message: "Seller not found for the logged-in user.",
-        });
-      }
-      sellerId = seller.id;
-    }
-
+   
     const {
       productName,
       productDescription,
@@ -118,8 +105,7 @@ const handleAddProduct = async (req, res) => {
 
       productWarrantyInfo: productWarrantyInfo || null,
       productReturnPolicy: productReturnPolicy || null,
-      sellerId,
-      UserId: req.user.id,
+  
       productTags,
       rekognitionLabels,
     });
@@ -425,13 +411,7 @@ const getAllProducts = async (req, res) => {
           },
           required: true,
         }),
-      },
-      {
-        model: Seller,
-        as: "seller",
-        attributes: ["id", "sellerName", "email", "shopName"],
-        required: false,
-      },
+      }
     ];
 
     const products = await Product.findAll({
@@ -547,11 +527,6 @@ const getProductById = async (req, res) => {
           ],
         },
         {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
-        {
           model: Review,
           as: "reviews",
           attributes: [
@@ -652,12 +627,7 @@ const searchProducts = async (req, res) => {
           model: Category,
           as: "category",
           attributes: ["categoryName"],
-        },
-        {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
+        }
       ],
     });
 
@@ -686,12 +656,7 @@ const getProductsByCategory = async (req, res) => {
           as: "category",
           where: { categoryName },
           attributes: ["categoryName"],
-        },
-        {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
+        }
       ],
     });
 
@@ -723,12 +688,8 @@ const getProductsByBrand = async (req, res) => {
           model: Category,
           as: "category",
           attributes: ["categoryName"],
-        },
-        {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
+        }
+        
       ],
     });
 
@@ -770,12 +731,7 @@ const getProductsByCategoryMultiple = async (req, res) => {
               ? { categoryName: { [Op.in]: categoryArray } }
               : undefined,
           attributes: ["categoryName"],
-        },
-        {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
+        }
       ],
     });
 
@@ -811,12 +767,7 @@ const getRecentProducts = async (req, res) => {
           model: Category,
           as: "category",
           attributes: ["categoryName"],
-        },
-        {
-          model: Seller,
-          as: "seller",
-          attributes: ["id", "sellerName", "email", "shopName"],
-        },
+        }
       ],
     });
 

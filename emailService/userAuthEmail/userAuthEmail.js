@@ -4,15 +4,15 @@ const logo = process.env.LOGO;
 const sendVerificationEmail = async (email, fullName, otp) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: " Email Verification Code - FavorSelect",
-        text: `Hi ${fullName},\n\nYour FavorSelect verification code is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, you can safely ignore this email.\n\n- FavorSelect Team`,
+        subject: " Email Verification Code - Sparkethon dev Support",
+        text: `Hi ${fullName},\n\nYour Sparkethon verification code is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, you can safely ignore this email.\n\n- Sparkethon dev Support Team`,
         html: `
           <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
           <div style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
             <div style="text-align: center; margin-bottom: 30px;">
-              <img src="${logo}" alt="FavorSelect Logo" style="max-height: 60px;" />
+              <img src="${logo}" alt="Sparkethon Logo" style="max-height: 60px;" />
             </div>
             <h2 style="text-align: center; padding: 20px; background-color:#d63384;  border-radius: 6px; color: #f6f1f3;">Verification Code</h2>
             <div style="text-align: center; padding: 16px;  margin: 20px 0;">
@@ -21,10 +21,10 @@ const sendVerificationEmail = async (email, fullName, otp) => {
             <p style="text-align: center; color: #555; font-size: 15px;">(This code will expire 10 minutes after it was sent.)</p>
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
             <p style="font-size: 14px; color: #666; text-align: center; line-height: 1.6;">
-              FavorSelect will never ask for your password, credit card, or sensitive information via email. If you did not request this email, you can safely ignore it.
+              Sparkethon dev Support team will never ask for your password, credit card, or sensitive information via email. If you did not request this email, you can safely ignore it.
             </p>
             <p style="text-align: center; font-size: 13px; color: #aaa; margin-top: 30px;">
-              © ${new Date().getFullYear()} FavorSelect. All rights reserved.
+              © ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.
             </p>
           </div>
         </div>
@@ -41,14 +41,14 @@ const sendVerificationEmail = async (email, fullName, otp) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/login`; 
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Email Verified",
         text: `Hi ${fullName},\n\nYour email has been successfully verified! \n\n\n\nLogin: ${loginURL}\n\nThanks for joining FavorSelect!\n\n- The FavorSelect Team`,
         html: `
           <div style="max-width: 600px; background-color: #fff0f5; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(255, 105, 180, 0.2); font-family: Arial, sans-serif;">
             <div style="text-align: center; margin-bottom: 20px;">
-              <img src="${logo}" alt="FavorSelect Logo" style="max-width: 140px;" />
+              <img src="${logo}" alt="Sparkethon Logo" style="max-width: 140px;" />
             </div>
             <h2 style="color: #d63384; font-size: 26px; text-align: center; margin-bottom: 16px;">
                Welcome, ${fullName}!
@@ -66,7 +66,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
              feel free to log in above.
             </p>
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #d63384;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,
@@ -83,10 +83,10 @@ const sendVerificationEmail = async (email, fullName, otp) => {
   try {
     const verifyLoginURL = `${process.env.FRONTEND_URL}/verify-2fa`; 
     const response = await transporter.sendMail({
-      from: '"FavorSelect Team" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: "Your 2FA Login OTP - FavorSelect",
-      text: `Hi ${fullName},\n\nYour OTP for login is: ${otp}\nIt is valid for 10 minutes.\n\nIf you didn't attempt to login, please ignore this message.\n\n- The FavorSelect Team`,
+      subject: "Your 2FA Login OTP - Sparkethon dev Support",
+      text: `Hi ${fullName},\n\nYour OTP for login is: ${otp}\nIt is valid for 10 minutes.\n\nIf you didn't attempt to login, please ignore this message.\n\n- The Sparkethon dev SupportTeam`,
       html: `
         <div style="max-width: 600px; background-color: #fff0f5; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(255, 105, 180, 0.2); font-family: Arial, sans-serif;">
           <div style="text-align: center; margin-bottom: 20px;">
@@ -110,7 +110,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
             If you did not request this, please ignore the email.
           </p>
           <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #d63384;">
-             - The FavorSelect Team
+             - Sparkethon dev Support
           </p>
         </div>
       `,
@@ -132,14 +132,14 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
       : "You have disabled Two-Factor Authentication (2FA) for your account. If this wasn't you, please secure your account immediately.";
 
     const response = await transporter.sendMail({
-      from: '"FavorSelect Team" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: `Two-Factor Authentication ${statusText} - FavorSelect`,
-      text: `Hi ${fullName},\n\n${actionMessage}\n\n- The FavorSelect Team`,
+      subject: `Two-Factor Authentication ${statusText} - Sparkethon dev Support`,
+      text: `Hi ${fullName},\n\n${actionMessage}\n\n- The Sparkethon dev Support Team`,
       html: `
         <div style="max-width: 600px; background-color: ${actionBgColor}; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); font-family: Arial, sans-serif;">
           <div style="text-align: center; margin-bottom: 20px;">
-            <img src="${logo}" alt="FavorSelect Logo" style="max-width: 140px;" />
+            <img src="${logo}" alt="Sparkethon Logo" style="max-width: 140px;" />
           </div>
           <h2 style="color: ${actionColor}; font-size: 26px; text-align: center; margin-bottom: 16px;">
             Hi ${fullName},
@@ -148,7 +148,7 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
             ${actionMessage}
           </p>
           <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #d63384;">
-            - The FavorSelect Team
+            - Sparkethon dev Support
           </p>
         </div>
       `,
@@ -164,10 +164,10 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
   const sendForgetPasswordURL = async (email, URL) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Support" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: "FavorSelect Password Reset Request",
-        text: `We received a request to reset your FavorSelect password. Click the link below to reset your password:\n\n${URL}\n\nIf you did not request this, please ignore this email.`,
+        subject: "Sparkethon Password Reset Request",
+        text: `We received a request to reset your Sparkethon password. Click the link below to reset your password:\n\n${URL}\n\nIf you did not request this, please ignore this email.`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; background-color: #fff0f5; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(255, 105, 180, 0.2);">
             <div style="text-align: center; padding: 15px 0;">
@@ -191,7 +191,7 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
               </p>
             </div>
             <div style="text-align: center; margin-top: 30px; color: #aaa; font-size: 12px;">
-              © 2025 FavorSelect. All rights reserved.
+              © 2025 Sparkethon dev Support. All rights reserved.
             </div>
           </div>
         `,
@@ -208,9 +208,9 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/signin`;
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: "Your FavorSelect Password Has Been Reset!",
+        subject: "Your Sparkethon Password Has Been Reset!",
         text: `Hi ${name}, your password has been successfully reset. You can now sign in using your new password. Login here: ${loginURL}`,
         html: `
           <div style="max-width: 600px; background-color: #ffe6f0; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(255, 105, 180, 0.2); font-family: Arial, sans-serif;">
@@ -232,7 +232,7 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
               If you did not request a password reset, please contact our support team immediately.
             </p>
             <p style="text-align: center; color: #d63384; font-weight: bold; margin-top: 30px;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,
@@ -249,10 +249,10 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/login`; 
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Password Changed Successfully",
-        text: `Hi ${fullName},\n\nYour password has been successfully changed! \n\n\n\nIf you did not request this change, please contact support immediately.\n\nLogin: ${loginURL}\n\nThanks for using FavorSelect!\n\n- The FavorSelect Team`,
+        text: `Hi ${fullName},\n\nYour password has been successfully changed! \n\n\n\nIf you did not request this change, please contact support immediately.\n\nLogin: ${loginURL}\n\nThanks for using Sparkethon dev Support!\n\n- The Sparkethon dev Support Team`,
         html: `
           <div style="max-width: 600px; background-color: #f0f8ff; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2); font-family: Arial, sans-serif;">
             <div style="text-align: center; margin-bottom: 20px;">
@@ -274,7 +274,7 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
              Feel free to log in with your new password above.
             </p>
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #007bff;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,
@@ -290,10 +290,10 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/profile`; 
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Profile Updated Successfully",
-        text: `Hi ${fullName},\n\nYour profile has been successfully updated! \n\n\n\nIf you did not make these changes, please contact support immediately.\n\nProfile: ${loginURL}\n\nThanks for being with FavorSelect!\n\n- The FavorSelect Team`,
+        text: `Hi ${fullName},\n\nYour profile has been successfully updated! \n\n\n\nIf you did not make these changes, please contact support immediately.\n\nProfile: ${loginURL}\n\nThanks for being with Sparkethon dev Support!\n\n- The Sparkethon dev Support Team`,
         html: `
           <div style="max-width: 600px; background-color: #e8f0fe; margin: 0 auto; padding: 24px; border-radius: 12px; box-shadow: 0 6px 12px rgba(23, 162, 184, 0.2); font-family: Arial, sans-serif;">
             <div style="text-align: center; margin-bottom: 20px;">
@@ -315,7 +315,7 @@ const sendTwoFactorAuthStatusEmail = async (email, fullName, isEnabled) => {
              Feel free to check and update your details anytime.
             </p>
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #17a2b8;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,

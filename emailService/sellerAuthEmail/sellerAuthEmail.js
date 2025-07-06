@@ -3,9 +3,9 @@ const logo = process.env.LOGO;
 const sendVerificationEmail = async (email, fullName, otp) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: "Email Verification Code - FavorSelect",
+        subject: "Email Verification Code - Sparkethon dev Support",
         text: `Hi ${fullName},\n\nYour FavorSelect verification code is: ${otp}\n\nThis code will expire in 10 minutes.\n\nIf you did not request this code, you can safely ignore this email.\n\n- FavorSelect Team`,
         html: `
           <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -41,7 +41,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
       const loginURL = `${process.env.FRONTEND_URL}/login`;
   
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Email Verified - Approval Request Submitted",
         text: `Hi ${fullName},\n\nYour email has been successfully verified! \n\nYour request to become a seller has been sent for approval. Once your account is approved, you will be able to log in and access your seller dashboard.\n\nIf you are already approved, you can log in now:\n\nLogin: ${loginURL}\n\nThanks for choosing FavorSelect!\n\n- The FavorSelect Team`,
@@ -75,7 +75,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
             </p>
   
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #d63384;">
-              - The FavorSelect Team
+              - The Sparkethon dev Support Team
             </p>
           </div>
         `,
@@ -90,9 +90,9 @@ const sendVerificationEmail = async (email, fullName, otp) => {
   const sendSellerApprovalEmail = async (sellerEmail, sellerName) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: process.env.ADMIN_EMAIL,
-        subject: "New Seller Approval Request - FavorSelect",
+        subject: "New Seller Approval Request - Sparkethon dev Support",
         text: `${sellerName} has requested to become a seller on FavorSelect. Please review their application and approve it from your admin panel.`,
         html: `
           <div style="max-width: 600px; background-color: #ffffff; margin: 0 auto; padding: 20px; 
@@ -118,7 +118,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
             </div>
             <p style="color: #555555; font-size: 16px; text-align: center; margin-top: 20px;">
               Best Regards,<br>
-              <strong style="color: #1e88e5;">FavorSelect Team</strong>
+              <strong style="color: #1e88e5;">Sparkethon dev Support Team</strong>
             </p>
           </div>
         `,
@@ -134,9 +134,9 @@ const sendVerificationEmail = async (email, fullName, otp) => {
   const sendApprovedEmail = async (email, sellerName) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: " Seller Account Approved - FavorSelect",
+        subject: " Seller Account Approved - Sparkethon dev Support",
         text: `Hi ${sellerName},\n\nYour seller account has been approved successfully on FavorSelect.\n\nYou can now wait for your agreement approval, or if it has already been approved, you may log in to your seller dashboard.\n\nThank you for joining us!\n\n- FavorSelect Team`,
         html: `
           <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -161,7 +161,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
               </p>
               <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
               <p style="text-align: center; font-size: 13px; color: #aaa;">
-                © ${new Date().getFullYear()} FavorSelect. All rights reserved.
+                © ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.
               </p>
             </div>
           </div>
@@ -177,9 +177,9 @@ const sendVerificationEmail = async (email, fullName, otp) => {
   const sendApprovalRejectEmail = async (email, sellerName) => {
     try {
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
-        subject: " Seller Account Approval Rejected - FavorSelect",
+        subject: " Seller Account Approval Rejected - Sparkethon dev Support",
         text: `Hi ${sellerName},\n\nWe regret to inform you that your seller account request has been rejected after review.\n\nThis may be due to incomplete or invalid information provided during registration. Please feel free to reach out to our support team if you have any questions or would like to reapply.\n\n- FavorSelect Team`,
         html: `
           <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -203,7 +203,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
               </div>
               <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
               <p style="text-align: center; font-size: 13px; color: #aaa;">
-                © ${new Date().getFullYear()} FavorSelect. All rights reserved.
+                © ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.
               </p>
             </div>
           </div>
@@ -221,7 +221,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/profile`; 
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Profile Updated Successfully",
         text: `Hi ${fullName},\n\nYour profile has been successfully updated! \n\n\n\nIf you did not make these changes, please contact support immediately.\n\nProfile: ${loginURL}\n\nThanks for being with FavorSelect!\n\n- The FavorSelect Team`,
@@ -246,7 +246,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
              Feel free to check and update your details anytime.
             </p>
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #17a2b8;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,
@@ -261,7 +261,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
     try {
       const loginURL = `${process.env.FRONTEND_URL}/login`; 
       const response = await transporter.sendMail({
-        from: '"FavorSelect Team" <favorselect113@gmail.com>',
+        from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
         to: email,
         subject: " Password Changed Successfully",
         text: `Hi ${fullName},\n\nYour password has been successfully changed! \n\n\n\nIf you did not request this change, please contact support immediately.\n\nLogin: ${loginURL}\n\nThanks for using FavorSelect!\n\n- The FavorSelect Team`,
@@ -286,7 +286,7 @@ const sendVerificationEmail = async (email, fullName, otp) => {
              Feel free to log in with your new password above.
             </p>
             <p style="text-align: center; margin-top: 30px; font-weight: bold; color: #007bff;">
-               FavorSelect Team
+               Sparkethon dev Support
             </p>
           </div>
         `,

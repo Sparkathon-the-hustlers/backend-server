@@ -4,9 +4,9 @@ const logo = process.env.LOGO;
 const sendSellerTicketCreationEmail = async (email, fullName, ticketNumber, subject) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Seller Support" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: `🎫 Seller Ticket Created - FavorSelect (#${ticketNumber})`,
+      subject: `🎫 Seller Ticket Created - Sparkethon (#${ticketNumber})`,
       text: `Hi ${fullName},\n\nYour seller support ticket has been created successfully.\n\nTicket Number: ${ticketNumber}\nSubject: ${subject}\n\nOur team will review and respond shortly.\n\nThank you,\nFavorSelect Seller Support`,
       html: `
         <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -26,7 +26,7 @@ const sendSellerTicketCreationEmail = async (email, fullName, ticketNumber, subj
               If you didn’t raise this ticket, you can safely ignore this email.
             </p>
             <p style="text-align: center; font-size: 13px; color: #aaa; margin-top: 30px;">
-              © ${new Date().getFullYear()} FavorSelect. All rights reserved.
+              © ${new Date().getFullYear()} Sparkethon. All rights reserved.
             </p>
           </div>
         </div>
@@ -42,7 +42,7 @@ const sendSellerTicketCreationEmail = async (email, fullName, ticketNumber, subj
 const sendSellerTicketReplyEmail = async (email, fullName, ticketNumber, subject, adminReply, status) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Seller Support" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
       subject: `🛠️ Seller Ticket #${ticketNumber} Update - ${status.toUpperCase()}`,
       html: `
@@ -59,7 +59,7 @@ const sendSellerTicketReplyEmail = async (email, fullName, ticketNumber, subject
             <p>If you have further queries, feel free to reply or raise another ticket.</p>
             <p>Regards,<br/>FavorSelect Seller Support Team</p>
             <hr />
-            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `

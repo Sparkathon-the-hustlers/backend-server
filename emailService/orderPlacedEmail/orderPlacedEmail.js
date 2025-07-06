@@ -21,10 +21,10 @@ const sendOrderEmail = async (email, customerName, orderId, productDetails) => {
     )).join("\n");
 
     const response = await transporter.sendMail({
-      from: '"FavorSelect Team" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: "Order Confirmation - FavorSelect",
-      text: `Hi ${customerName},\n\nThank you for your order!\n\nOrder ID: ${orderId}\n\n${productsText}\nWe’ll notify you when your order ships.\n\n- FavorSelect Team`,
+      subject: "Order Confirmation - Sparkethon dev Support",
+      text: `Hi ${customerName},\n\nThank you for your order!\n\nOrder ID: ${orderId}\n\n${productsText}\nWe’ll notify you when your order ships.\n\n- Sparkethon dev Support Team`,
       html: `
         <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
           <div style="max-width: 580px; margin: 0 auto; background-color: #ffffff; border-radius: 8px; padding: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
@@ -39,7 +39,7 @@ const sendOrderEmail = async (email, customerName, orderId, productDetails) => {
               ${productsHtml}
             </div>
             <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;" />
-            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="text-align: center; font-size: 13px; color: #aaa;">© ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `

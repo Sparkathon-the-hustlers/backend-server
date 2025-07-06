@@ -4,9 +4,9 @@ const logo = process.env.LOGO;
 const sendUserTicketCreationEmail = async (email, fullName, ticketNumber, subject) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Support" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
-      subject: `🎫 Ticket Created - FavorSelect (#${ticketNumber})`,
+      subject: `🎫 Ticket Created - Sparkethon (#${ticketNumber})`,
       text: `Hi ${fullName},\n\nYour support ticket has been created successfully.\n\nTicket Number: ${ticketNumber}\nSubject: ${subject}\n\nOur support team will contact you soon.\n\nThank you,\nFavorSelect Support`,
       html: `
         <div style="background-color: #f3f4f6; padding: 40px 0; font-family: Arial, sans-serif;">
@@ -26,7 +26,7 @@ const sendUserTicketCreationEmail = async (email, fullName, ticketNumber, subjec
               If you didn’t raise this ticket, you can safely ignore this email.
             </p>
             <p style="text-align: center; font-size: 13px; color: #aaa; margin-top: 30px;">
-              © ${new Date().getFullYear()} FavorSelect. All rights reserved.
+              © ${new Date().getFullYear()}Sparkethon dev Support. All rights reserved.
             </p>
           </div>
         </div>
@@ -41,7 +41,7 @@ const sendUserTicketCreationEmail = async (email, fullName, ticketNumber, subjec
 const sendUserTicketReplyEmail = async (email, fullName, ticketNumber, subject, adminReply, status) => {
   try {
     const response = await transporter.sendMail({
-      from: '"FavorSelect Support" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
       subject: `🛠️ Ticket #${ticketNumber} Update - ${status.toUpperCase()}`,
       html: `
@@ -58,7 +58,7 @@ const sendUserTicketReplyEmail = async (email, fullName, ticketNumber, subject, 
             <p>If you have further queries, feel free to reply or raise another ticket.</p>
             <p>Regards,<br/>FavorSelect Support Team</p>
             <hr />
-            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `

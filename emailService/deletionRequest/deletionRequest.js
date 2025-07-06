@@ -6,11 +6,11 @@ const sendAccountDeletionStatusEmail = async (email, fullName, requestId, status
     const subjectLine = `Account Deletion Request ${status.toUpperCase()}`;
     const adminReply =
       status === "approved"
-        ? "Your account has been successfully deleted from FavorSelect. We're sorry to see you go!"
+        ? "Your account has been successfully deleted from FavorSparkethon dev Support. We're sorry to see you go!"
         : "Your request for account deletion has been rejected. If you believe this is a mistake, please contact our support team.";
 
     await transporter.sendMail({
-      from: '"FavorSelect Support" <favorselect113@gmail.com>',
+      from: '"Sparkethon dev Support" <process.env.ADMIN_EMAIL>',
       to: email,
       subject: ` ${subjectLine}`,
       html: `
@@ -26,7 +26,7 @@ const sendAccountDeletionStatusEmail = async (email, fullName, requestId, status
             <p>If you have further queries, feel free to contact our support team.</p>
             <p>Regards,<br/>FavorSelect Support Team</p>
             <hr />
-            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} FavorSelect. All rights reserved.</p>
+            <p style="font-size: 12px; color: #888;">© ${new Date().getFullYear()} Sparkethon dev Support. All rights reserved.</p>
           </div>
         </div>
       `

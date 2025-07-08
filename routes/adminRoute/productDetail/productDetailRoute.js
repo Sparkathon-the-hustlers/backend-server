@@ -10,6 +10,7 @@ const upload = require("../../../awsS3Connection/awsUploadMiddleware");
 const {
   handleAddProduct,
   handleUpdateProduct,
+  updateFakeGreenScores,
 } = require("../../../controllers/productController/productController");
 const router = express.Router();
 
@@ -28,5 +29,7 @@ router.put(
   ]),
   handleUpdateProduct
 );
+
+router.post("/fix-fake-green-scores", updateFakeGreenScores);
 
 module.exports = router;

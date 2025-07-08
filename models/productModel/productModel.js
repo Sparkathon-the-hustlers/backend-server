@@ -33,7 +33,18 @@ const Product = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-
+     productMaterialType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+     productMaterialUsed: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    productMaterial: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     productDescription: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -66,7 +77,7 @@ const Product = sequelize.define(
     },
 
     // Pricing
-    productDiscountPercentage: {
+     greenScore: {
       type: DataTypes.FLOAT,
     },
 
@@ -165,10 +176,7 @@ galleryImageUrls: {
       type: DataTypes.JSON,
       allowNull: true,
     },
-    productMaterial: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
+
 
     // Analytics
     productViewCount: {

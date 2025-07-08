@@ -8,6 +8,338 @@ const {
 const Review = require("../../models/reviewModel/reviewModel");
 const User = require("../../models/authModel/userModel");
 const ReviewLike = require("../../models/reviewLikeModel/reviewLikeModel");
+const axios = require("axios");
+const materialMap = {
+"ABS Plastic":0,
+"Acrylic":1,
+"Algae-Based Foam":2,
+"Aluminum (Virgin)":3,
+"Apple Leather":4,
+"Bagasse":5,
+"Bamboo":6,
+"Bamboo Charcoal Fiber":7,
+"Banana Fiber":8,
+"Beeswax":9,
+"Biodegradable TPU":10,
+"Camel Dung Paper":11,
+"Camel Wool":12,
+"Chitosan (Shrimp Shells)":13,
+"Chlorinated Plastic":14,
+"Coconut Oil":15,
+"Conventional Cotton":16,
+"Corn Husks":17,
+"Cornstarch Bioplastic (PLA/PBAT)":18,
+"Epoxy Resin":19,
+"Faux Leather (PVC-based)":20,
+"Flax Linen":21,
+"FSC-Certified Paper":22,
+"Hemp":23,
+"Jojoba Oil":24,
+"Jute":25,
+"Kapok Fiber":26,
+"Lead-Based Paint":27,
+"Luffa":28,
+"Lyocell (TENCEL)":29,
+"Melamine":30,
+"Microplastics":31,
+"Milk Protein Fiber":32,
+"Mycelium (Mushroom Leather)":33,
+"Natural Rubber":34,
+"Non-Biodegradable Foam":35,
+"Non-Recycled Aluminum":36,
+"Non-recycled Paper":37,
+"Nylon (Virgin)":38,
+"Organic Cotton":39,
+"Palm Leaves":40,
+"PET (Virgin)":41,
+"Pinatex (Pineapple Leather)":42,
+"Plastic (General)":43,
+"Plastic-Coated Paper":44,
+"Polycarbonate":45,
+"Polystyrene (Styrofoam)":46,
+"Polyurethane Foam":47,
+"PVC (Polyvinyl Chloride)":48,
+"PVC Flooring":49,
+"Raffia":50,
+"Ramie":51,
+"Recycled Cotton":52,
+"Recycled Glass":53,
+"Recycled Kraft Paper":54,
+"Recycled Nylon (ECONYL)":55,
+"Recycled Paper":56,
+"Recycled Polyester":57,
+"Scrap Metal (Brass, Copper)":58,
+"Seaweed-based Plastic":59,
+"Sisal or Coconut Fiber":60,
+"Soy Wax":61,
+"Stone Paper":62,
+"Synthetic Latex":63,
+"Synthetic Polyester":64,
+"Teflon (PTFE)":65,
+"Terracotta":66,
+"Tree Resin":67,
+"Upcycled Cotton/Denim":68,
+"Virgin Rubber":69,
+"Virgin Steel":70,
+"Wool (Ethically Sourced)":71,
+
+};
+
+
+const typeMap = {
+  "Sustainable": 0,
+  "Unsustainable": 1,
+};
+
+const usedInMap = {
+"Toys, Electronics":0,
+"Knitwear, Plastic Goods":1,
+"Shoes, Yoga Mats":2,
+"Cans, Foils":3,
+"Wallets, Bags":4,
+"Plates, Containers":5,
+"Brushes, Cutlery, Toys, Hairbrushes":6,
+"Textiles":7,
+"Textiles, Paper":8,
+"Wraps":9,
+"Packaging, Accessories":10,
+"Stationery":11,
+"Textiles":12,
+"Bioplastics":13,
+"Packaging":14,
+"Soap, Deodorant":15,
+"Mass Clothing":16,
+"Packaging, Crafts":17,
+"Bags, Plates":18,
+"Coatings, Crafting":19,
+"Bags, Shoes":20,
+"Dresses, Apparel":21,
+"Books, Cards":22,
+"Bags, Clothing":23,
+"Wraps, Cosmetics":24,
+"Bags, Rugs":25,
+"Stuffing, Insulation":26,
+"Old Products":27,
+"Sponges":28,
+"Clothing, Bedding":29,
+"Dishes":30,
+"Cosmetics, Clothing":31,
+"Fabrics":32,
+"Fashion, Packaging":33,
+"Shoes, Toys":34,
+"Packaging":35,
+"Cans, Foil":36,
+"Office Supplies":37,
+"Textiles":38,
+"Clothing, Bags, Filters":39,
+"Plates, Bowls":40,
+"Water Bottles":41,
+"Bags, Shoes":42,
+"Conventional Packaging":43,
+"Cups, Boxes":44,
+"Eyewear, Bottles":45,
+"Cups, Packaging":46,
+"Mattresses":47,
+"Plumbing, Cheap Toys":48,
+"Construction":49,
+"Hats, Mats":50,
+"Fabrics":51,
+"Apparel, Bags":52,
+"Candles, Jars":53,
+"Packaging, Wrapping":54,
+"Swimwear, Activewear":55,
+"Towels, Cards":56,
+"Jackets, Clothing":57,
+"Jewelry":58,
+"Packaging":59,
+"Brush Bristles":60,
+"Candles, Crayons":61,
+"Notebooks":62,
+"Gloves, Balloons":63,
+"Fast Fashion":64,
+"Cookware":65,
+"Pots, Planters":66,
+"Wraps":67,
+"Clothing, Toys":68,
+"Shoes, Tires":69,
+"Construction":70,
+"Clothing, Blankets":71,
+
+};
+
+
+// const updateFakeGreenScores = async (req, res) => {
+//   try {
+//     const product = await Product.findOne({
+//       where: {
+//         id: 1,
+//         productMaterial: { [Op.ne]: null },
+//         productMaterialType: { [Op.ne]: null },
+//         productMaterialUsed: { [Op.ne]: null },
+//       },
+//     });
+
+//     if (!product) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Product with ID 1 not found or missing required fields.",
+//       });
+//     }
+
+//     const material = product.productMaterial?.trim();
+//     const type = product.productMaterialType?.trim();
+//     const used = product.productMaterialUsed?.trim();
+
+//     console.log(" Raw Material Inputs:");
+//     console.log("Material:", material);
+//     console.log("Type:", type);
+//     console.log("Used In:", used);
+
+//     const materialEncoded = materialMap[material];
+//     const typeEncoded = typeMap[type];
+//     const usedEncoded = usedInMap[used];
+
+//     console.log(" Encoded Inputs:");
+//     console.log("materialEncoded:", materialEncoded);
+//     console.log("typeEncoded:", typeEncoded);
+//     console.log("usedEncoded:", usedEncoded);
+
+//     if (
+//       materialEncoded === undefined ||
+//       typeEncoded === undefined ||
+//       usedEncoded === undefined
+//     ) {
+//       return res.status(400).json({
+//         success: false,
+//         message: ` Encoding not found for one of the fields.`,
+//         debug: {
+//           material,
+//           materialEncoded,
+//           type,
+//           typeEncoded,
+//           used,
+//           usedEncoded,
+//         },
+//       });
+//     }
+
+//     // Call AI model
+//     console.log("📡 Sending to AI model with:");
+//     const payload = {
+//       feature1: materialEncoded,
+//       feature2: usedEncoded,
+//       feature3: typeEncoded,
+//     };
+//     console.log(payload);
+
+//     const aiResponse = await axios.post("http://127.0.0.1:8000/predict", payload);
+
+//     const greenScore = aiResponse.data.prediction ?? 0;
+
+//     console.log(" AI Model Response:", aiResponse.data);
+
+//     // Update DB
+//     await product.update({
+//       greenScore,
+//       productDiscountPrice: null,
+//     });
+
+//     console.log(` Product ID ${product.id} updated with Green Score: ${greenScore}`);
+
+//     return res.status(200).json({
+//       success: true,
+//       message: `Green score updated for product ID 1`,
+//       updatedProduct: {
+//         id: product.id,
+//         greenScore,
+//         modelInputs: payload,
+//         aiResponse: aiResponse.data,
+//       },
+//     });
+
+//   } catch (err) {
+//     console.error("🔥 Error updating product ID 1:", err.message);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server error while updating green score for product ID 1.",
+//       error: err.message,
+//     });
+//   }
+// };
+
+
+const updateFakeGreenScores = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        productMaterial: { [Op.ne]: null },
+        productMaterialType: { [Op.ne]: null },
+        productMaterialUsed: { [Op.ne]: null },
+      },
+    });
+
+    const updatedProducts = [];
+
+    for (const product of products) {
+      try {
+        const material = product.productMaterial?.trim();
+        const type = product.productMaterialType?.trim();
+        const used = product.productMaterialUsed?.trim();
+
+        const materialEncoded = materialMap[material];
+        const typeEncoded = typeMap[type];
+        const usedEncoded = usedInMap[used];
+
+        if (
+          materialEncoded === undefined ||
+          typeEncoded === undefined ||
+          usedEncoded === undefined
+        ) {
+          console.warn(
+            ` Skipped Product ID ${product.id}: Unknown encoding for "${material}", "${type}", "${used}"`
+          );
+          continue;
+        }
+
+        // Step 2: Send to FastAPI model
+        const aiResponse = await axios.post("http://127.0.0.1:8000/predict", {
+          feature1: materialEncoded,
+          feature2:usedEncoded,
+          feature3: typeEncoded,
+        });
+
+        const greenScore = aiResponse.data.prediction || 0;
+
+        //  Step 3: Update Product with real green score
+        await product.update({
+          greenScore,
+          productDiscountPrice: null, // optional
+        });
+
+        updatedProducts.push({
+          id: product.id,
+          greenScore,
+        });
+      } catch (err) {
+        console.error(` Failed Product ID ${product.id}: ${err.message}`);
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Green scores updated using hardcoded label encoding.",
+      updatedCount: updatedProducts.length,
+      updatedProducts,
+    });
+  } catch (err) {
+    console.error("Server Error:", err.message);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update green scores.",
+      error: err.message,
+    });
+  }
+};
 
 const handleAddProduct = async (req, res) => {
   try {
@@ -20,8 +352,6 @@ const handleAddProduct = async (req, res) => {
       stockKeepingUnit,
       productModelNumber,
       productBestSaleTag,
-
-      productDiscountPercentage,
       productPrice,
       productDiscountPrice,
       saleDayleft,
@@ -35,6 +365,8 @@ const handleAddProduct = async (req, res) => {
       productColors,
       productDimensions,
       productMaterial,
+      productMaterialType,
+      productMaterialUsed,
 
       productWarrantyInfo,
       productReturnPolicy,
@@ -76,6 +408,37 @@ const handleAddProduct = async (req, res) => {
 
     await category.increment("categoryProductCount");
 
+
+
+
+ let greenScore = 0;
+    const material = productMaterial?.trim();
+    const type = productMaterialType?.trim();
+    const used = productMaterialUsed?.trim();
+
+    const materialEncoded = materialMap[material];
+    const typeEncoded = typeMap[type];
+    const usedEncoded = usedInMap[used];
+
+    if (
+      materialEncoded !== undefined &&
+      typeEncoded !== undefined &&
+      usedEncoded !== undefined
+    ) {
+      try {
+        const aiResponse = await axios.post("http://127.0.0.1:8000/predict", {
+          feature1: materialEncoded,
+          feature2: usedEncoded,
+          feature3: typeEncoded,
+        });
+        greenScore = aiResponse.data.prediction || 0;
+      } catch (err) {
+        console.warn("AI model error:", err.message);
+      }
+    }
+
+
+
     const product = await Product.create({
       productName,
       productDescription,
@@ -90,7 +453,9 @@ const handleAddProduct = async (req, res) => {
       productColors: productColors || null,
       productSizes: productSizes || null,
 
-      productDiscountPercentage: productDiscountPercentage || null,
+      greenScore: greenScore || null,
+      productMaterialType: productMaterialType || null,
+      productMaterialUsed:productMaterialUsed || null,
       productPrice,
       productDiscountPrice: productDiscountPrice || null,
       saleDayleft: saleDayleft || null,
@@ -171,6 +536,8 @@ const handleUpdateProduct = async (req, res) => {
       "productColors",
       "productDimensions",
       "productMaterial",
+      "productMaterialType",
+      "productMaterialUsed",
       "productWarrantyInfo",
       "productReturnPolicy",
     ];
@@ -936,4 +1303,5 @@ module.exports = {
   getProductsByCategoryMultiple,
   handleGetQuerySuggestions,
   getSimilarProducts,
+   updateFakeGreenScores,
 };

@@ -13,6 +13,7 @@ const { createUserNotification } = require("../notifications/userNotification");
 const UserCoupon = require("../../models/couponModel/userCouponModel");
 const Coupon = require("../../models/couponModel/couponModel");
 const AppliedCoupon = require("../../models/couponModel/appliedCoupon");
+const User = require("../../models/authModel/userModel");
 
 //orderId like -->  333-5555555-6666666
 function generateFormattedOrderId() {
@@ -119,6 +120,8 @@ const handleBuyNow = async (req, res) => {
       { transaction: t }
     );
 
+  
+
     const orderItem = await OrderItem.create(
       {
         orderId: order.id,
@@ -136,6 +139,13 @@ const handleBuyNow = async (req, res) => {
     product.availableStockQuantity -= quantity;
     product.totalSoldCount += quantity;
     await product.save({ transaction: t });
+
+    const user = await User.findByPk(userId, { transaction: t });
+    const productGreenScore = parseFloat(product.greenScore || 0);
+    const pointsToAdd = (productGreenScore * quantity) / 10;
+    let currentPoints = parseFloat(user.greenPoint || 0);
+    user.greenPoint = (currentPoints + pointsToAdd).toFixed(2);
+    await user.save({ transaction: t });
 
     await t.commit();
     await updateRevenueAndOrders(totalPrice);
@@ -156,7 +166,11 @@ const handleBuyNow = async (req, res) => {
     await createUserNotification({
       userId,
       title: "Order Placed Successfully",
-      message: `Your order ${customOrderId} for "${product.productName}" has been placed.`,
+      message: `Your order ${customOrderId} for "${
+        product.productName
+      }" has been placed. and You've earned ${pointsToAdd.toFixed(
+        2
+      )} green points for purchasing "${product.productName}".`,
       type: "order",
       coverImage: product.coverImageUrl || null,
     });
@@ -172,6 +186,131 @@ const handleBuyNow = async (req, res) => {
     res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 };
+
+
+const handleBuyNowFromGreenPoint = async (req, res) => {
+const { productId, quantity, addressId } = req.body;
+const userId = req.user.id;
+
+const t = await sequelize.transaction();
+
+  try {
+    const address = await Address.findOne({ where: { id: addressId, userId } });
+    if (!address) {
+      return res.status(404).json({
+        success: false,
+        message: "Address not found for this user",
+      });
+    }
+
+    const product = await Product.findByPk(productId, { transaction: t });
+
+    if (!product) {
+      await t.rollback();
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    if (product.availableStockQuantity < quantity) {
+      await t.rollback();
+      return res.status(400).json({ message: "Not enough stock available" });
+    }
+
+    const user = await User.findByPk(userId, { transaction: t });
+
+    const requiredPoints = (parseFloat(product.greenScore || 0)) * quantity;
+    const availablePoints = parseFloat(user.greenPoint || 0);
+
+    if (availablePoints < requiredPoints) {
+      await t.rollback();
+      return res.status(400).json({
+        message: `Insufficient green points. You need ${requiredPoints} points, but have only ${availablePoints}.`,
+      });
+    }
+
+    
+    user.greenPoint = (availablePoints - requiredPoints).toFixed(2);
+    await user.save({ transaction: t });
+
+    const customOrderId = generateFormattedOrderId();
+
+    const order = await Order.create(
+      {
+        uniqueOrderId: customOrderId,
+        userId,
+        cartId: null,
+        totalAmount: 0, 
+        addressId,
+        paymentStatus: "Completed",
+        paymentMethod: "GreenPoints",
+        appliedCouponId: null,
+      },
+      { transaction: t }
+    );
+
+    const orderItem = await OrderItem.create(
+      {
+        orderId: order.id,
+        uniqueOrderId: order.uniqueOrderId,
+        productId: product.id,
+        quantity,
+        price: 0, 
+        totalPrice: 0,
+        productName: product.productName,
+        productImageUrl: product.coverImageUrl,
+      },
+      { transaction: t }
+    );
+
+    product.availableStockQuantity -= quantity;
+    product.totalSoldCount += quantity;
+    await product.save({ transaction: t });
+
+    await t.commit();
+
+    await sendOrderEmail(
+      req.user.email,
+      req.user.firstName,
+      order.uniqueOrderId,
+      {
+        productName: product.productName,
+        quantity,
+        price: 0,
+        totalPrice: 0,
+        productImageUrl: product.coverImageUrl,
+      }
+    );
+
+    
+    await createUserNotification({
+      userId,
+      title: "Green Point Order Placed",
+      message: `Your order ${customOrderId} for "${product.productName}" has been placed using ${requiredPoints.toFixed(
+        2
+      )} green points.`,
+      type: "greenPointOrder",
+      coverImage: product.coverImageUrl || null,
+    });
+
+
+    await createUserNotification({
+      userId,
+      title: "Green Points Updated",
+      message: `You now have ${user.greenPoint} green points remaining.`,
+      type: "greenPoint",
+    });
+
+    res.status(201).json({
+      message: "Order placed successfully using green points",
+      orderId: customOrderId,
+      order,
+      orderItem,
+    });
+  } catch (error) {
+    await t.rollback();
+    res.status(500).json({ message: error.message || "Internal Server Error" });
+  }
+};
+
 
 const handlePlaceOrderFromCart = async (req, res) => {
   const userId = req.user.id;
@@ -348,10 +487,27 @@ const handlePlaceOrderFromCart = async (req, res) => {
 
     await updateRevenueAndOrders(finalAmount);
 
+    let totalGreenScore = 0;
+    for (const item of cartItems) {
+      const productGreenScore = parseFloat(item.Product.greenScore || 0);
+      totalGreenScore += productGreenScore;
+    }
+
+    const pointsToAdd = totalGreenScore / 10;
+    const user = await User.findByPk(userId, { transaction: t });
+
+    let currentPoints = parseFloat(user.greenPoint || 0);
+    user.greenPoint = (currentPoints + pointsToAdd).toFixed(2);
+    await user.save({ transaction: t });
+
     await createUserNotification({
       userId,
       title: "Order Placed from Cart",
-      message: `Your order ${customOrderId} with ${cartItems.length} item(s) has been placed.`,
+      message: `Your order ${customOrderId} with ${
+        cartItems.length
+      } item(s) has been placed and You earned ${pointsToAdd.toFixed(
+        2
+      )} green points for purchasing sustainable products.`,
       type: "order",
       coverImage: cartItems[0]?.Product?.coverImageUrl || null,
     });
@@ -491,4 +647,5 @@ module.exports = {
   handleGetUserOrders,
   handlePlaceOrderFromCart,
   handleBuyNow,
+  handleBuyNowFromGreenPoint
 };

@@ -63,6 +63,10 @@ const User = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+       greenPoint: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
       city: {
     type: DataTypes.STRING,
     allowNull: true,

@@ -20,8 +20,8 @@ const upload = require("../../awsS3Connection/awsUploadMiddleware");
 
 router.post(
   "/review/add",
-  hasPurchasedProduct,
- canReviewProduct,
+//   hasPurchasedProduct,
+//  canReviewProduct,
   upload.single("reviewPhoto"),
   handleAddReview
 );
